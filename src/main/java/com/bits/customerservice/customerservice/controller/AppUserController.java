@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bits.customerservice.customerservice.db.AppUserRepository;
 import com.bits.customerservice.customerservice.model.AppUser;
+import com.bits.customerservice.customerservice.model.CustomerWithOrdersResponse;
 import com.bits.customerservice.customerservice.service.AppUserService;
 
 @RestController
@@ -62,18 +64,10 @@ public class AppUserController {
         return appUserService.getUserByContactNumber(contactNumber);
     }
 
-    // Get all customers with pagination and sorting
-//    @GetMapping
-//    public Page<AppUser> getAllUsers(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size,
-//            @RequestParam(defaultValue = "name") String sortBy,
-//            @RequestParam(defaultValue = "asc") String sortDir) {
-//
-//        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-//        Pageable pageable = PageRequest.of(page, size, sort);
-//        return appUserService.getAllUsers(pageable);
-//    }
+    @GetMapping("/{customerId}/details")
+    public ResponseEntity<CustomerWithOrdersResponse> getCustomerDetailsWithOrders(@PathVariable Long customerId) {
+        return ResponseEntity.ok(appUserService.getCustomerDetailsWithOrders(customerId));
+    }
 
     // Soft delete a customer
     @DeleteMapping("/{id}")

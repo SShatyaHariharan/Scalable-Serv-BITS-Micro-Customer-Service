@@ -7,6 +7,12 @@ import jakarta.persistence.Id;
 
 @Entity
 public class AppUser {
+	@Override
+	public String toString() {
+		return "AppUser [id=" + id + ", name=" + name + ", email=" + email + ", contactNumber=" + contactNumber
+				+ ", address=" + address + ", status=" + status + "]";
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
